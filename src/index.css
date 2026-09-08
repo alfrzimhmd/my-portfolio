@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #F7F8FA;
+    --surface-main: #FFFFFF;
+    --surface-secondary: #F0F2F5;
+    --border-main: #E2E5E9;
+    --text-primary: #111318;
+    --text-secondary: #6B7280;
+    --accent-cyan: #0891B2;
+    --accent-teal: #0D9488;
+    --accent-blue: #2563EB;
+    --grid-line: rgba(17, 19, 24, 0.04);
+  }
+
+  .dark {
+    --bg-main: #08090B;
+    --surface-main: #101216;
+    --surface-secondary: #15181D;
+    --border-main: #242830;
+    --text-primary: #F5F7FA;
+    --text-secondary: #9CA3AF;
+    --accent-cyan: #06B6D4;
+    --accent-teal: #14B8A6;
+    --accent-blue: #3B82F6;
+    --grid-line: rgba(245, 247, 250, 0.035);
+  }
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: hidden;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
+}
+
+/* Subtle Technical Grid Background */
+.bg-tech-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+}
+
+/* Scanline animation for profile photo & lab panels */
+@keyframes scanline {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.animate-scanline {
+  animation: scanline 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Subtle cursor pulse */
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursorBlink 1s infinite;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-main);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
