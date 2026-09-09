@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Cpu, Terminal, ArrowUp, Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
+import { Cpu, Terminal, ArrowUp, Github, Linkedin, Mail, ArrowUpRight, Phone } from 'lucide-react';
 import { personalInfo, socials } from '../../data/socials';
 
 interface FooterProps {
@@ -10,6 +10,17 @@ export default function Footer({ onOpenCV }: FooterProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Tambahkan WhatsApp ke socials
+  const allSocials = [
+    ...socials,
+    {
+      platform: 'whatsapp',
+      label: 'WhatsApp',
+      value: '+62 852-9216-5080',
+      url: 'https://wa.me/6285292165080'
+    }
+  ];
 
   return (
     <footer
@@ -120,7 +131,7 @@ export default function Footer({ onOpenCV }: FooterProps) {
                 <button
                   type="button"
                   onClick={onOpenCV}
-                  className="text-teal-600 dark:text-cyan-400 hover:underline font-mono flex items-center gap-1.5 transition-colors"
+                  className="text-teal-600 dark:text-cyan-400 hover:underline font-mono flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
                   <span>Curriculum Vitae</span>
                   <span className="text-[10px]">↓</span>
@@ -151,7 +162,7 @@ export default function Footer({ onOpenCV }: FooterProps) {
               CONNECT
             </h4>
             <div className="space-y-2 text-xs">
-              {socials.map((s) => (
+              {allSocials.map((s) => (
                 <a
                   key={s.platform}
                   href={s.url}
@@ -163,6 +174,7 @@ export default function Footer({ onOpenCV }: FooterProps) {
                   {s.platform === 'linkedin' && <Linkedin className="w-3.5 h-3.5" />}
                   {s.platform === 'email' && <Mail className="w-3.5 h-3.5" />}
                   {s.platform === 'website' && <Terminal className="w-3.5 h-3.5" />}
+                  {s.platform === 'whatsapp' && <Phone className="w-3.5 h-3.5" />}
                   <span className="truncate">{s.label}</span>
                   <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
                 </a>

@@ -4,8 +4,21 @@ import { timeline } from '../../data/timeline';
 import { personalInfo } from '../../data/socials';
 import { Hammer, Palette, SearchCode, Sparkles, Terminal, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTypingAnimation } from '../../hooks/useTypingAnimation';
 
 export default function AboutPage() {
+  const typingText = useTypingAnimation({
+    texts: [
+      'More Than Just Writing Code.',
+      'Muhammad Alfarizi',
+      'Software Engineer & Explorer',
+      'Building Digital Solutions'
+    ],
+    typingSpeed: 80,
+    deletingSpeed: 40,
+    pauseDuration: 2500,
+  });
+
   return (
     <div id="about-page-container" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-20 md:space-y-28">
       {/* 01: Profile Workspace (Left: 40-45% Photo, Right: Editorial Profile) */}
@@ -34,8 +47,12 @@ export default function AboutPage() {
               02 — PROFILE
             </span>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight">
-              More Than Just Writing Code.
+            {/* Headline dengan Animasi Mengetik */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight min-h-[4rem]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-400 to-blue-400">
+                {typingText}
+              </span>
+              <span className="inline-block w-1 h-10 sm:h-12 lg:h-14 bg-cyan-400 animate-pulse ml-1 align-middle"></span>
             </h1>
 
             <div className="space-y-4 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed font-normal">
@@ -127,27 +144,27 @@ export default function AboutPage() {
 
       {/* 03: Personal Philosophy (Section 18) - DIPERBAIKI */}
       <section id="about-philosophy-section">
-        <div className="rounded-2xl md:rounded-3xl border border-[var(--border-main)] bg-gradient-to-br from-[var(--surface-main)] via-[var(--surface-main)] to-[var(--surface-secondary)] p-8 sm:p-12 lg:p-16 shadow-2xl relative overflow-hidden">
-          <div className="max-w-4xl mx-auto space-y-8 text-center">
+        <div className="rounded-2xl md:rounded-3xl border border-[var(--border-main)] bg-gradient-to-br from-[var(--surface-main)] via-[var(--surface-main)] to-[var(--surface-secondary)] p-6 sm:p-8 lg:p-10 shadow-2xl relative overflow-hidden">
+          <div className="max-w-5xl mx-auto space-y-5 text-center">
             <span className="font-mono text-xs font-bold text-cyan-400 tracking-widest block">
               04 — ENGINEERING PHILOSOPHY
             </span>
 
-            {/* Giant Editorial Typography - 1 BARIS DI TENGAH */}
+            {/* Giant Editorial Typography */}
             <div className="space-y-1">
-              <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-[var(--text-primary)] leading-[1.05]">
-                <span>Build.</span>{' '}
-                <span className="text-cyan-400">Analyze.</span>{' '}
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-[1.05]">
+                <span className="text-cyan-400">Build.</span>{' '}
+                <span className="text-purple-400">Analyze.</span>{' '}
                 <span className="text-emerald-400">Improve.</span>
               </h2>
             </div>
 
-            {/* Editorial Statement */}
-            <blockquote className="text-lg sm:text-xl text-[var(--text-secondary)] leading-relaxed border-l-2 border-cyan-400 pl-6 max-w-2xl mx-auto font-normal text-left">
+            {/* Editorial Statement - RATA TENGAH */}
+            <blockquote className="text-xs sm:text-sm md:text-base text-[var(--text-secondary)] leading-relaxed max-w-4xl mx-auto font-normal text-center">
               &ldquo;Development is not only about making something work, but also understanding why it works and how it can be improved.&rdquo;
             </blockquote>
 
-            <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
               Prinsip ini menjadi kompas dalam setiap pengerjaan proyek software. Dari tahap inisiasi rancangan, penulisan kode, inspeksi performa memori, hingga pemolesan interaksi visual terkecil.
             </p>
           </div>

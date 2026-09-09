@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { Mail, Send, CheckCircle2, ArrowRight, Terminal as TerminalIcon, Github, Linkedin, MapPin, Copy, Check } from 'lucide-react';
+import { Mail, Send, CheckCircle2, ArrowRight, Terminal as TerminalIcon, Github, Linkedin, MapPin, Copy, Check, MessageCircle, Phone } from 'lucide-react';
 import { socials, personalInfo } from '../../data/socials';
 
 export default function ContactForm() {
@@ -11,15 +11,37 @@ export default function ContactForm() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<'email' | 'whatsapp'>('email');
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    if (!formData.name || !formData.message) return;
+
+    if (activeTab === 'email') {
+      // Buka email dengan pesan
+      const subject = encodeURIComponent(formData.subject || 'Contact from Portfolio');
+      const body = encodeURIComponent(
+        `Nama: ${formData.name}\n` +
+        `Email: ${formData.email}\n\n` +
+        `Pesan:\n${formData.message}`
+      );
+      window.open(`mailto:${socials.find(s => s.platform === 'email')?.value || 'alfrzimhmd.2603@gmail.com'}?subject=${subject}&body=${body}`, '_blank');
+    } else {
+      // Buka WhatsApp dengan pesan
+      const phoneNumber = '6285292165080'; // Nomor WhatsApp
+      const message = encodeURIComponent(
+        `Halo, saya ${formData.name}.\n\n` +
+        `Pesan: ${formData.message}\n\n` +
+        `Email: ${formData.email || 'Tidak diisi'}`
+      );
+      window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+    }
+
     setSubmitted(true);
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText(socials.find(s => s.platform === 'Email')?.value || '[EMAIL]');
+    navigator.clipboard.writeText(socials.find(s => s.platform === 'email')?.value || 'alfrzimhmd.2603@gmail.com');
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -41,16 +63,45 @@ export default function ContactForm() {
             </span>
           </div>
 
+          {/* Tab Switcher */}
+          <div className="flex gap-2 mb-6 bg-[var(--surface-secondary)] p-1 rounded-xl border border-[var(--border-main)]">
+            <button
+              onClick={() => setActiveTab('email')}
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'email'
+                  ? 'bg-cyan-500 text-black shadow-md'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <Mail className="w-4 h-4" />
+              <span>Email</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('whatsapp')}
+              className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                activeTab === 'whatsapp'
+                  ? 'bg-green-500 text-white shadow-md'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+              }`}
+            >
+              <MessageCircle className="w-4 h-4" />
+              <span>WhatsApp</span>
+            </button>
+          </div>
+
           {submitted ? (
             <div className="p-8 text-center space-y-4 rounded-xl bg-[var(--surface-secondary)] border border-cyan-500/30">
               <div className="w-12 h-12 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
               <h4 className="text-xl font-bold text-[var(--text-primary)]">
-                Message Dispatched
+                {activeTab === 'email' ? 'Email Opened' : 'WhatsApp Opened'}
               </h4>
               <p className="text-sm text-[var(--text-secondary)] max-w-sm mx-auto">
-                Thank you, {formData.name}. Your message has been routed to my personal inbox. I will review and reply as soon as possible.
+                {activeTab === 'email' 
+                  ? `Email client has been opened with your message to ${formData.name}. Please review and send.`
+                  : `WhatsApp has been opened with your message to ${formData.name}. Please review and send.`
+                }
               </p>
               <button
                 onClick={() => {
@@ -59,7 +110,7 @@ export default function ContactForm() {
                 }}
                 className="mt-4 px-4 py-2 rounded-lg border border-[var(--border-main)] bg-[var(--surface-main)] text-xs font-mono text-[var(--text-primary)] hover:border-cyan-500/40 cursor-pointer"
               >
-                Send Another Transmission
+                Send Another Message
               </button>
             </div>
           ) : (
@@ -75,25 +126,43 @@ export default function ContactForm() {
                     required
                     value={formData.name}
                     onChange={e => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Ada Lovelace"
+                    placeholder="Nama lengkap"
                     className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-primary)] placeholder:text-gray-500 focus:outline-none focus:border-cyan-400 text-sm font-sans"
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <label htmlFor="contact-email" className="text-[var(--text-secondary)] uppercase tracking-wider block">
-                    EMAIL <span className="text-cyan-400">*</span>
-                  </label>
-                  <input
-                    id="contact-email"
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={e => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="ada@domain.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-primary)] placeholder:text-gray-500 focus:outline-none focus:border-cyan-400 text-sm font-sans"
-                  />
-                </div>
+                {activeTab === 'email' && (
+                  <div className="space-y-1.5">
+                    <label htmlFor="contact-email" className="text-[var(--text-secondary)] uppercase tracking-wider block">
+                      EMAIL <span className="text-cyan-400">*</span>
+                    </label>
+                    <input
+                      id="contact-email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={e => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="email@domain.com"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-primary)] placeholder:text-gray-500 focus:outline-none focus:border-cyan-400 text-sm font-sans"
+                    />
+                  </div>
+                )}
+
+                {activeTab === 'whatsapp' && (
+                  <div className="space-y-1.5">
+                    <label htmlFor="contact-phone" className="text-[var(--text-secondary)] uppercase tracking-wider block">
+                      WHATSAPP <span className="text-cyan-400">*</span>
+                    </label>
+                    <input
+                      id="contact-phone"
+                      type="tel"
+                      value={formData.email}
+                      onChange={e => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="0852-9216-5080"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-primary)] placeholder:text-gray-500 focus:outline-none focus:border-cyan-400 text-sm font-sans"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="space-y-1.5">
@@ -105,7 +174,7 @@ export default function ContactForm() {
                   type="text"
                   value={formData.subject}
                   onChange={e => setFormData({ ...formData, subject: e.target.value })}
-                  placeholder="Software Development / Interface Collaboration"
+                  placeholder="Subjek pesan"
                   className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-primary)] placeholder:text-gray-500 focus:outline-none focus:border-cyan-400 text-sm font-sans"
                 />
               </div>
@@ -120,7 +189,10 @@ export default function ContactForm() {
                   rows={5}
                   value={formData.message}
                   onChange={e => setFormData({ ...formData, message: e.target.value })}
-                  placeholder="Describe your project, technical inquiry, or collaborative idea..."
+                  placeholder={activeTab === 'email' 
+                    ? "Tulis pesan Anda di sini..."
+                    : "Tulis pesan WhatsApp Anda di sini..."
+                  }
                   className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-primary)] placeholder:text-gray-500 focus:outline-none focus:border-cyan-400 text-sm font-sans resize-y"
                 />
               </div>
@@ -128,11 +200,26 @@ export default function ContactForm() {
               <button
                 id="contact-submit-btn"
                 type="submit"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-sm font-sans transition-all duration-200 shadow-md hover:shadow-cyan-500/20 cursor-pointer"
+                className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm font-sans transition-all duration-200 shadow-md cursor-pointer ${
+                  activeTab === 'email'
+                    ? 'bg-cyan-500 hover:bg-cyan-400 text-black hover:shadow-cyan-500/20'
+                    : 'bg-green-500 hover:bg-green-400 text-white hover:shadow-green-500/20'
+                }`}
               >
-                <span>Send Message</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>{activeTab === 'email' ? 'Send Email' : 'Send WhatsApp'}</span>
+                {activeTab === 'email' ? (
+                  <Mail className="w-4 h-4" />
+                ) : (
+                  <MessageCircle className="w-4 h-4" />
+                )}
               </button>
+
+              <div className="pt-2 text-[10px] font-mono text-[var(--text-secondary)]">
+                {activeTab === 'email' 
+                  ? 'Your message will be sent via your default email client.'
+                  : 'Your message will be sent via WhatsApp web or mobile app.'
+                }
+              </div>
             </form>
           )}
         </div>
@@ -154,7 +241,7 @@ export default function ContactForm() {
             <div className="p-3 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-main)] flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-[var(--text-secondary)] uppercase block">EMAIL</span>
-                <span className="text-[var(--text-primary)] font-semibold">{personalInfo.name ? socials[0].value : '[EMAIL]'}</span>
+                <span className="text-[var(--text-primary)] font-semibold">mhmdalfrzi.03@gmail.com</span>
               </div>
               <button
                 onClick={copyEmail}
@@ -165,14 +252,30 @@ export default function ContactForm() {
               </button>
             </div>
 
+            {/* WhatsApp item */}
+            <div className="p-3 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-main)] flex items-center justify-between">
+              <div>
+                <span className="text-[10px] text-[var(--text-secondary)] uppercase block">WHATSAPP</span>
+                <span className="text-[var(--text-primary)] font-semibold">+62 852-9216-5080</span>
+              </div>
+              <a
+                href="https://wa.me/6285292165080"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-1.5 rounded-lg hover:bg-[var(--surface-main)] text-[var(--text-secondary)] hover:text-green-500 transition-colors"
+              >
+                <Phone className="w-4 h-4" />
+              </a>
+            </div>
+
             {/* GitHub item */}
             <div className="p-3 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-main)] flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-[var(--text-secondary)] uppercase block">GITHUB</span>
-                <span className="text-[var(--text-primary)] font-semibold">{socials[1].value}</span>
+                <span className="text-[var(--text-primary)] font-semibold">@alfrzimhmd</span>
               </div>
               <a
-                href={socials[1].url}
+                href="https://github.com/alfrzimhmd"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-1.5 rounded-lg hover:bg-[var(--surface-main)] text-[var(--text-secondary)] hover:text-cyan-400 transition-colors"
@@ -185,13 +288,13 @@ export default function ContactForm() {
             <div className="p-3 rounded-xl bg-[var(--surface-secondary)] border border-[var(--border-main)] flex items-center justify-between">
               <div>
                 <span className="text-[10px] text-[var(--text-secondary)] uppercase block">LINKEDIN</span>
-                <span className="text-[var(--text-primary)] font-semibold">{socials[2].value}</span>
+                <span className="text-[var(--text-primary)] font-semibold">Muhammad Alfarizi</span>
               </div>
               <a
-                href={socials[2].url}
+                href="https://www.linkedin.com/in/mhmd-alfrzi-80b15334b?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-1.5 rounded-lg hover:bg-[var(--surface-main)] text-[var(--text-secondary)] hover:text-cyan-400 transition-colors"
+                className="p-1.5 rounded-lg hover:bg-[var(--surface-main)] text-[var(--text-secondary)] hover:text-blue-500 transition-colors"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
@@ -208,7 +311,7 @@ export default function ContactForm() {
           </div>
         </div>
 
-        {/* Technical Terminal Snippet from Section 32 */}
+        {/* Technical Terminal Snippet */}
         <div className="rounded-2xl border border-[var(--border-main)] bg-[#07090C] p-4 font-mono text-xs text-gray-300 shadow-xl space-y-2">
           <div className="flex items-center justify-between pb-2 border-b border-[#181C24] text-[10px] text-gray-500">
             <span className="flex items-center gap-1.5 text-cyan-400">

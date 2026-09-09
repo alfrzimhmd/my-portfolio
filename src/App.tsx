@@ -63,7 +63,7 @@ export default function App() {
         </main>
 
         {/* Editorial Minimalist Footer */}
-        <Footer />
+        <Footer onOpenCV={() => setIsCVOpen(true)} />
 
         {/* Interactive Command Palette (Cmd+K / Ctrl+K) */}
         <CommandPalette isOpen={isOpen} onClose={close} />

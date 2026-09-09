@@ -9,7 +9,7 @@ export const cvData: CVData = {
     email: "alfrzimhmd.2603@gmail.com",
     location: "Salatiga, Indonesia",
     github: "github.com/alfarizi-dev",
-    linkedin: "linkedin.com/in/alfarizi-muhammad",
+    linkedin: "linkedin.com/in/mhmd-alfrzi-80b15334b",
     website: "alfarizi.workspace.dev",
     availability: "Open for Software Engineering Internships & Collaboration",
   },

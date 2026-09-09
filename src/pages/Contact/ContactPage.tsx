@@ -1,5 +1,5 @@
 import ContactForm from '../../components/ContactForm/ContactForm';
-import { Mail, Sparkles, Terminal, MessageSquare } from 'lucide-react';
+import { Mail, Sparkles, Terminal, MessageSquare, Phone } from 'lucide-react';
 
 export default function ContactPage() {
   return (
@@ -13,7 +13,7 @@ export default function ContactPage() {
           Let&apos;s Build Something Interesting.
         </h1>
         <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-          Whether it&apos;s a software project, interface design, technical discussion, or an interesting idea, feel free to reach out.
+          Whether it&apos;s a software project, interface design, technical discussion, or an interesting idea, feel free to reach out via Email or WhatsApp.
         </p>
       </div>
 
