@@ -5,12 +5,12 @@ export const cvData: CVData = {
   personalInfo: {
     name: "Alfarizi Muhammad",
     role: "Web Developer & Software Developer • Information Technology Student",
-    subtitle: "Software Engineer & Mobile Multiplatform Developer",
-    email: "alfrzimhmd.2603@gmail.com",
-    location: "Salatiga, Indonesia",
-    github: "github.com/alfarizi-dev",
+    subtitle: "Software Engineer & Reverse Engineering",
+    email: "mhmdalfrzi.03@gmail.com",
+    location: "Batang, Jawa Tengah, Indonesia",
+    github: "github.com/alfrzimhmd",
     linkedin: "linkedin.com/in/mhmd-alfrzi-80b15334b",
-    website: "alfarizi.workspace.dev",
+    website: "alfarizimuhammad.vercel.app",
     availability: "Open for Software Engineering Internships & Collaboration",
   },
   summary:
@@ -52,49 +52,71 @@ export const cvData: CVData = {
   ],
   projects: [
     {
-      title: "SmartFarm",
-      tech: "Flutter · Dart · TensorFlow Lite · Python · SQLite",
-      role: "Mobile Developer & Machine Learning Integrator",
+      title: "StudyMate - Student Productivity Platform",
+      tech: "Flutter · Dart · SQLite · Google Drive API · Provider",
+      role: "Mobile Developer",
       description:
-        "Mobile application yang membantu pengguna memperoleh informasi tanaman, rekomendasi tanaman, panduan perawatan, serta diagnosis penyakit tanaman berbasis AI secara on-device.",
+        "Aplikasi produktivitas mahasiswa yang mengintegrasikan jadwal akademik, manajemen tugas, catatan markdown, dan timer Pomodoro dalam satu platform offline-first dengan backup cloud.",
       highlights: [
-        "Integrasi on-device inference TensorFlow Lite untuk klasifikasi penyakit daun secara offline.",
-        "Arsitektur state management yang modular dengan persistensi lokal SQLite.",
+        "Arsitektur offline-first dengan SQLite untuk persistensi lokal dan sinkronisasi Google Drive.",
+        "Timer Pomodoro dengan foreground service Android untuk akurasi background."
       ],
     },
     {
-      title: "UMKM Digital Helper",
-      tech: "Flutter · Laravel · MySQL · REST API · Sanctum Auth",
-      role: "Fullstack Developer",
+      title: "AirVista - Platform Monitoring Kualitas Udara",
+      tech: "React · Vite · Express.js · Leaflet · Google Gemini AI",
+      role: "Web Developer",
       description:
-        "Aplikasi untuk membantu UMKM mengelola transaksi harian, inventaris stok, katalog produk digital, dan pencatatan arus kas keuangan secara digital.",
+        "Platform monitoring kualitas udara realtime yang mengintegrasikan data satelit, algoritma EPA, dan AI untuk analisis lingkungan serta rekomendasi kesehatan.",
       highlights: [
-        "Membangun REST API performan tinggi dengan autentikasi Laravel Sanctum.",
-        "Sinkronisasi real-time multiplatform antara web dashboard dan mobile app.",
+        "Visualisasi peta interaktif dengan Leaflet dan data AQI realtime.",
+        "Integrasi Google Gemini AI untuk konsultasi dan analisis prediktif."
       ],
     },
     {
-      title: "Manajemen Tugas Harian",
-      tech: "Laravel · PHP · MySQL · Blade · Tailwind CSS",
-      role: "Web Developer & Database Designer",
+      title: "Sistem KRS - Kartu Rencana Studi",
+      tech: "Laravel · PHP · MySQL · Bootstrap · JavaScript",
+      role: "Web Developer",
       description:
-        "Web application untuk mengelola tugas harian menggunakan konsep CRUD komprehensif, filtering prioritas, dan database relational yang terstruktur rapi.",
+        "Sistem informasi akademik dengan multi-role (Mahasiswa & Dosen) untuk pengajuan dan persetujuan KRS, dilengkapi statistik akademik dan manajemen mata kuliah.",
       highlights: [
-        "Perancangan skema database ter-normalisasi dengan indexing optimal pada MySQL.",
-        "Interface responsif yang fluid menggunakan Tailwind CSS dan asynchronous request.",
+        "Autentikasi multi-role dengan workflow approval terstruktur.",
+        "Perancangan skema database relasional untuk relasi mahasiswa-dosen-matakuliah."
       ],
     },
+    // {
+    //   title: "SmartInventory - Manajemen Stok & Transaksi",
+    //   tech: "Flutter · Dart · SQLite · Provider",
+    //   role: "Mobile Developer",
+    //   description:
+    //     "Aplikasi mobile untuk manajemen inventaris dan transaksi dengan sistem pembelian/penjualan terintegrasi, manajemen supplier, dan analisis performa bisnis.",
+    //   highlights: [
+    //     "Sistem transaksi terintegrasi yang menjaga integritas data stok.",
+    //     "Dashboard statistik harian dan analisis transaksi per periode."
+    //   ],
+    // },
     {
-      title: "Sistem Manajemen Transaksi",
-      tech: "Laravel · PHP · MySQL · Chart.js · Tailwind CSS",
-      role: "Fullstack Developer",
+      title: "NutriScan - Deteksi Nutrisi Makanan",
+      tech: "Flutter · Dart · TensorFlow Lite · SQLite · BLoC",
+      role: "Mobile Developer",
       description:
-        "Web application untuk pencatatan transaksi kasir, inventaris produk, perhitungan HPP, laba rugi, serta dashboard analitik visual bisnis.",
+        "Aplikasi mobile berbasis AI untuk mendeteksi nutrisi makanan melalui scan, dengan target nutrisi harian, riwayat, dan fitur edukasi gizi.",
       highlights: [
-        "Kalkulasi margin keuntungan otomatis dan rekap laporan finansial periodik.",
-        "Visualisasi metrik penjualan interaktif dengan Chart.js dan query agregasi SQL.",
+        "On-device machine learning dengan TensorFlow Lite untuk deteksi makanan.",
+        "State management modular dengan BLoC/Cubit dan persistensi SQLite."
       ],
     },
+    // {
+    //   title: "Sistem Apotek Online",
+    //   tech: "PHP Native · MySQL · HTML · CSS · JavaScript",
+    //   role: "Web Developer",
+    //   description:
+    //     "Website apotek online dengan multi-role (Pegawai & Pelanggan) untuk manajemen obat, transaksi, konsultasi online, dan fitur pengingat obat.",
+    //   highlights: [
+    //     "Dashboard statistik pemasukan/pengeluaran dan laporan bulanan.",
+    //     "Fitur pembelian online, konsultasi, dan rating untuk pelanggan."
+    //   ],
+    // },
   ],
   experience: [
     {
@@ -108,17 +130,17 @@ export const cvData: CVData = {
         "Mengeksplorasi penelitian teknis mandiri dalam reverse engineering APK dan optimasi database.",
       ],
     },
-    {
-      role: "Staff / Anggota Divisi Pengembangan",
-      organization: "HMPS Teknologi Informasi",
-      period: "2024 – Present",
-      description:
-        "Berperan aktif dalam kegiatan Himpunan Mahasiswa Program Studi Teknologi Informasi untuk mendorong literasi digital dan kemampuan coding di kalangan mahasiswa.",
-      highlights: [
-        "Menginisiasi workshop coding praktis dan sesi sharing problem solving algoritma.",
-        "Mengelola infrastruktur digital dan repositori internal organisasi.",
-      ],
-    },
+    // {
+    //   role: "Staff / Anggota Divisi Pengembangan",
+    //   organization: "HMPS Teknologi Informasi",
+    //   period: "2024 – Present",
+    //   description:
+    //     "Berperan aktif dalam kegiatan Himpunan Mahasiswa Program Studi Teknologi Informasi untuk mendorong literasi digital dan kemampuan coding di kalangan mahasiswa.",
+    //   highlights: [
+    //     "Menginisiasi workshop coding praktis dan sesi sharing problem solving algoritma.",
+    //     "Mengelola infrastruktur digital dan repositori internal organisasi.",
+    //   ],
+    // },
     {
       role: "Freelance & Independent Project Developer",
       organization: "Project Experience / Self-Directed",

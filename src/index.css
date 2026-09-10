@@ -40,7 +40,6 @@ body {
   font-family: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 }
 
-/* Subtle Technical Grid Background */
 .bg-tech-grid {
   background-size: 32px 32px;
   background-image: 
@@ -48,29 +47,17 @@ body {
     linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
 }
 
-/* Scanline animation for profile photo & lab panels */
 @keyframes scanline {
-  0% {
-    top: 0%;
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.8;
-  }
-  85% {
-    opacity: 0.8;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
+  0% { top: 0%; opacity: 0; }
+  15% { opacity: 0.8; }
+  85% { opacity: 0.8; }
+  100% { top: 100%; opacity: 0; }
 }
 
 .animate-scanline {
   animation: scanline 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-/* Subtle cursor pulse */
 @keyframes cursorBlink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -80,7 +67,6 @@ body {
   animation: cursorBlink 1s infinite;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -97,4 +83,97 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-secondary);
+}
+
+/* ============================================
+   PRINT STYLES FOR CV - COMPACT
+   ============================================ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  html, body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  #cv-printable-document {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    margin: 0 !important;
+    padding: 8mm !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: white !important;
+    color: black !important;
+    font-size: 9px !important;
+  }
+
+  /* Force light mode colors on print */
+  #cv-printable-document * {
+    color: #111827 !important;
+    border-color: #e5e7eb !important;
+  }
+
+  /* Keep accent colors */
+  #cv-printable-document .text-teal-600,
+  #cv-printable-document .text-teal-700,
+  #cv-printable-document .text-cyan-400,
+  #cv-printable-document .text-cyan-300 {
+    color: #0d9488 !important;
+  }
+
+  #cv-printable-document .text-emerald-400 {
+    color: #059669 !important;
+  }
+
+  /* Print pills and tags */
+  #cv-printable-document .print-pill {
+    background: #f3f4f6 !important;
+    border: 1px solid #e5e7eb !important;
+    color: #111827 !important;
+  }
+
+  /* Prevent page breaks inside sections */
+  #cv-printable-document section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 2mm !important;
+  }
+
+  /* Project & Experience items - prevent break inside */
+  #cv-printable-document .print\:break-inside-avoid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Hide scrollbars */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Header adjustments for print */
+  #cv-printable-document header {
+    margin-bottom: 2mm !important;
+    padding-bottom: 2mm !important;
+  }
+
+  /* Remove page break for projects */
+  #cv-printable-document .print\:break-before-page {
+    page-break-before: auto !important;
+    break-before: auto !important;
+  }
 }

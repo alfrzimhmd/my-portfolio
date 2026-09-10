@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Printer, Download, X, FileText, Info } from 'lucide-react';
+import { useReactToPrint } from 'react-to-print';
 import { CVDocument } from './CVDocument';
 
 interface CVModalProps {
@@ -9,9 +10,55 @@ interface CVModalProps {
 }
 
 export const CVModal: React.FC<CVModalProps> = ({ isOpen, onClose }) => {
-  const handlePrint = () => {
-    window.print();
-  };
+  const cvRef = useRef<HTMLDivElement>(null);
+
+  const handlePrint = useReactToPrint({
+    contentRef: cvRef,
+    documentTitle: 'Muhammad_Alfarizi_CV',
+    pageStyle: `
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+      @media print {
+        html, body {
+          width: 210mm;
+          height: 297mm;
+          margin: 0 !important;
+          padding: 0 !important;
+          background: white !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+        .no-print {
+          display: none !important;
+        }
+      }
+    `,
+  });
+
+  // Body scroll lock saat modal terbuka
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
+  // Handle ESC key untuk close modal
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [isOpen, onClose]);
 
   return (
     <AnimatePresence>
@@ -43,7 +90,7 @@ export const CVModal: React.FC<CVModalProps> = ({ isOpen, onClose }) => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -16, opacity: 0 }}
               transition={{ duration: 0.25, delay: 0.05 }}
-              className="sticky top-0 z-20 mb-4 p-3 rounded-xl border border-gray-200/80 dark:border-[#242830] bg-white/90 dark:bg-[#101216]/90 backdrop-blur-md shadow-lg flex flex-wrap items-center justify-between gap-3"
+              className="sticky top-0 z-20 mb-4 p-3 rounded-xl border border-gray-200/80 dark:border-[#242830] bg-white/90 dark:bg-[#101216]/90 backdrop-blur-md shadow-lg flex flex-wrap items-center justify-between gap-3 no-print"
             >
               {/* Left Label */}
               <div className="flex items-center gap-2">
@@ -102,7 +149,7 @@ export const CVModal: React.FC<CVModalProps> = ({ isOpen, onClose }) => {
             </motion.div>
 
             {/* Notification hint for PDF save */}
-            <div className="hidden sm:flex items-center gap-2 mb-3 px-3 py-1.5 rounded-lg bg-teal-500/5 dark:bg-cyan-500/5 border border-teal-500/20 text-[11px] font-mono text-teal-700 dark:text-cyan-300">
+            <div className="hidden sm:flex items-center gap-2 mb-3 px-3 py-1.5 rounded-lg bg-teal-500/5 dark:bg-cyan-500/5 border border-teal-500/20 text-[11px] font-mono text-teal-700 dark:text-cyan-300 no-print">
               <Info className="w-3.5 h-3.5 shrink-0" />
               <span>Tip: Select <strong>"Save as PDF"</strong> as destination in the browser print dialog for an A4 vector document.</span>
             </div>
@@ -115,7 +162,9 @@ export const CVModal: React.FC<CVModalProps> = ({ isOpen, onClose }) => {
               transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               className="w-full flex justify-center pb-8"
             >
-              <CVDocument />
+              <div ref={cvRef}>
+                <CVDocument />
+              </div>
             </motion.div>
           </div>
         </motion.div>
