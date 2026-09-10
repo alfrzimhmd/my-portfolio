@@ -41,7 +41,7 @@ export default function DeveloperWorkspace() {
           </span>
         </div>
 
-        {/* View Switcher Tabs - 5 tabs with new order */}
+        {/* View Switcher Tabs */}
         <div className="flex items-center gap-1 bg-[var(--surface-secondary)] p-1 rounded-lg border border-[var(--border-main)] overflow-x-auto">
           <button
             onClick={() => setActiveTab('console')}
@@ -98,7 +98,7 @@ export default function DeveloperWorkspace() {
 
       {/* Main Workspace Stage */}
       <div className="space-y-5">
-        {/* TAB 1: CONSOLE */}
+        {/* TAB 1: CONSOLE - TANPA NESTED CARD */}
         {activeTab === 'console' && (
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)] border-b border-[var(--border-main)] pb-3">
@@ -113,27 +113,8 @@ export default function DeveloperWorkspace() {
               </span>
             </div>
 
-            {/* Full Terminal Display */}
-            <div className="rounded-xl border border-[var(--border-main)] bg-[#0A0C10] overflow-hidden">
-              <div className="flex items-center justify-between px-4 py-2.5 bg-[#12151B] border-b border-[var(--border-main)]">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
-                  <span className="ml-2 text-[11px] text-gray-400 flex items-center gap-1.5">
-                    <TerminalIcon className="w-3 h-3 text-purple-400" /> lab-console
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-[10px] text-gray-500">
-                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-                  <span>zsh 5.9</span>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <Terminal initialCommand="whoami" isInteractive={true} />
-              </div>
-            </div>
+            {/* Terminal Langsung tanpa nested card */}
+            <Terminal initialCommand="whoami" isInteractive={true} />
 
             {/* Quick Command Reference */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[10px] font-mono">
@@ -146,8 +127,8 @@ export default function DeveloperWorkspace() {
                 <span className="block text-[9px] text-[var(--text-secondary)] mt-0.5">List all</span>
               </div>
               <div className="p-2.5 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-main)] text-[var(--text-secondary)] text-center hover:border-purple-500/30 transition-colors group">
-                <span className="text-purple-400 group-hover:text-purple-300 transition-colors">status</span>
-                <span className="block text-[9px] text-[var(--text-secondary)] mt-0.5">System info</span>
+                <span className="text-purple-400 group-hover:text-purple-300 transition-colors">project airvista</span>
+                <span className="block text-[9px] text-[var(--text-secondary)] mt-0.5">Show detail</span>
               </div>
               <div className="p-2.5 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-main)] text-[var(--text-secondary)] text-center hover:border-purple-500/30 transition-colors group">
                 <span className="text-purple-400 group-hover:text-purple-300 transition-colors">sudo</span>
@@ -157,7 +138,7 @@ export default function DeveloperWorkspace() {
           </div>
         )}
 
-        {/* TAB 2: CODE - DIPENDEKAN LAGI */}
+        {/* TAB 2: CODE - DIPERPANJANG DENGAN SCROLL */}
         {activeTab === 'code' && (
           <div className="space-y-4">
             <div className="flex items-center gap-2 text-xs font-mono text-[var(--text-secondary)] border-b border-[var(--border-main)] pb-3">
@@ -168,51 +149,79 @@ export default function DeveloperWorkspace() {
               </span>
             </div>
 
-            {/* Code editor snippet - Lebih pendek dengan warna */}
-            <div className="rounded-xl border border-[var(--border-main)] bg-[#0A0C10] p-4 font-mono text-xs overflow-x-auto shadow-inner group">
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#1E222B] text-[10px] text-gray-500">
+            {/* Code editor snippet - lebih panjang dengan scroll */}
+            <div className="rounded-xl border border-[var(--border-main)] bg-[#0A0C10] font-mono text-xs shadow-inner overflow-hidden">
+              <div className="flex items-center justify-between px-4 py-2 border-b border-[#1E222B] text-[10px] text-gray-500 bg-[#12151B]">
                 <span className="flex items-center gap-1.5 text-cyan-400">
                   <Code2 className="w-3 h-3" /> studymate_engine.dart
                 </span>
                 <span className="text-emerald-400">● Dart 3.4</span>
               </div>
-              <pre className="text-gray-300 leading-relaxed text-[11px]">
-                <code>
-                  <span className="text-purple-400">import</span> <span className="text-emerald-400">'package:sqflite/sqflite.dart'</span>;<br />
-                  <span className="text-purple-400">import</span> <span className="text-emerald-400">'package:provider/provider.dart'</span>;<br />
-                  <br />
-                  <span className="text-purple-400">class</span> <span className="text-yellow-400">StudyMateEngine</span> {'{'}<br />
-                  {'  '}<span className="text-cyan-400">final</span> SQLiteDatabase <span className="text-blue-300">_db</span>;<br />
-                  {'  '}<span className="text-cyan-400">final</span> TaskRepository <span className="text-blue-300">_repo</span>;<br />
-                  <br />
-                  {'  '}<span className="text-yellow-400">StudyMateEngine</span>({'{'}<span className="text-purple-400">required</span> <span className="text-blue-300">this._db</span>, <span className="text-purple-400">required</span> <span className="text-blue-300">this._repo</span>);<br />
-                  <br />
-                  {'  '}<span className="text-purple-400">Future</span>&lt;<span className="text-yellow-400">void</span>&gt; <span className="text-blue-400">dispatchTask</span>(Task item) <span className="text-purple-400">async</span> {'{'}<br />
-                  {'    '}<span className="text-purple-400">await</span> <span className="text-blue-300">_db</span>.<span className="text-cyan-400">insert</span>(<span className="text-emerald-400">'tasks'</span>, item.<span className="text-cyan-400">toMap</span>());<br />
-                  {'    '}<span className="text-blue-300">_repo</span>.<span className="text-cyan-400">notify</span>(item);<br />
-                  {'  '}{'}'}<br />
-                  {'}'}
-                </code>
-              </pre>
+              <div className="p-4 overflow-y-auto max-h-[280px] scrollbar-thin scrollbar-thumb-[var(--border-main)]">
+                <pre className="text-gray-300 leading-relaxed text-[11px]">
+                  <code>
+                    <span className="text-purple-400">import</span> <span className="text-emerald-400">'package:sqflite/sqflite.dart'</span>;<br />
+                    <span className="text-purple-400">import</span> <span className="text-emerald-400">'package:provider/provider.dart'</span>;<br />
+                    <span className="text-purple-400">import</span> <span className="text-emerald-400">'package:google_drive_api/drive.dart'</span>;<br />
+                    <br />
+                    <span className="text-gray-500">/// Core engine for StudyMate application</span><br />
+                    <span className="text-gray-500">/// Handles offline-first data persistence and sync</span><br />
+                    <span className="text-purple-400">class</span> <span className="text-yellow-400">StudyMateEngine</span> <span className="text-purple-400">implements</span> <span className="text-yellow-400">BaseSyncEngine</span> {'{'}<br />
+                    {'  '}<span className="text-cyan-400">final</span> SQLiteDatabase <span className="text-blue-300">_db</span>;<br />
+                    {'  '}<span className="text-cyan-400">final</span> CloudBackupService <span className="text-blue-300">_sync</span>;<br />
+                    {'  '}<span className="text-cyan-400">final</span> TaskRepository <span className="text-blue-300">_taskRepo</span>;<br />
+                    {'  '}<span className="text-cyan-400">final</span> ScheduleRepository <span className="text-blue-300">_scheduleRepo</span>;<br />
+                    <br />
+                    {'  '}<span className="text-yellow-400">StudyMateEngine</span>({'{'})<br />
+                    {'    '}<span className="text-purple-400">required</span> <span className="text-blue-300">this._db</span>,<br />
+                    {'    '}<span className="text-purple-400">required</span> <span className="text-blue-300">this._sync</span>,<br />
+                    {'    '}<span className="text-purple-400">required</span> <span className="text-blue-300">this._taskRepo</span>,<br />
+                    {'    '}<span className="text-purple-400">required</span> <span className="text-blue-300">this._scheduleRepo</span>,<br />
+                    {'  '});<br />
+                    <br />
+                    {'  '}<span className="text-gray-500">/// Dispatch a task with offline-first strategy</span><br />
+                    {'  '}<span className="text-purple-400">Future</span>&lt;<span className="text-yellow-400">void</span>&gt; <span className="text-blue-400">dispatchTask</span>(Task item) <span className="text-purple-400">async</span> {'{'}<br />
+                    {'    '}<span className="text-purple-400">try</span> {'{'}<br />
+                    {'      '}<span className="text-gray-500">// 1. Local persistence (offline-first)</span><br />
+                    {'      '}<span className="text-purple-400">await</span> <span className="text-blue-300">_db</span>.<span className="text-cyan-400">insert</span>(<span className="text-emerald-400">'tasks'</span>, item.<span className="text-cyan-400">toMap</span>());<br />
+                    {'      '}<span className="text-gray-500">// 2. Queue for background sync</span><br />
+                    {'      '}<span className="text-blue-300">_sync</span>.<span className="text-cyan-400">queueDelta</span>(item.id, SyncAction.push);<br />
+                    {'      '}<span className="text-gray-500">// 3. Notify listeners</span><br />
+                    {'      '}<span className="text-blue-300">_taskRepo</span>.<span className="text-cyan-400">notifyTaskAdded</span>(item);<br />
+                    {'    '} <span className="text-purple-400">catch</span> (e) {'{'}<br />
+                    {'      '}<span className="text-gray-500">// Rollback on failure</span><br />
+                    {'      '}<span className="text-purple-400">await</span> <span className="text-blue-300">_db</span>.<span className="text-cyan-400">delete</span>(<span className="text-emerald-400">'tasks'</span>, item.id);<br />
+                    {'      '}<span className="text-purple-400">rethrow</span>;<br />
+                    {'    '}{'}'}<br />
+                    {'  '}{'}'}<br />
+                    <br />
+                    {'  '}<span className="text-gray-500">/// Get today's schedule</span><br />
+                    {'  '}<span className="text-purple-400">Future</span>&lt;<span className="text-yellow-400">List</span>&lt;Schedule&gt;&gt; <span className="text-blue-400">getTodaySchedule</span>() <span className="text-purple-400">async</span> {'{'}<br />
+                    {'    '}<span className="text-purple-400">return</span> <span className="text-blue-300">_scheduleRepo</span>.<span className="text-cyan-400">getByDate</span>(DateTime.now());<br />
+                    {'  '}{'}'}<br />
+                    {'}'}
+                  </code>
+                </pre>
+              </div>
             </div>
 
             {/* File Tree mini */}
             <div className="grid grid-cols-3 gap-2 text-[9px] font-mono">
               <div className="p-2 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-main)]">
-                <span className="text-cyan-400">📁 lib/</span>
+                <span className="text-cyan-400">lib/</span>
                 <div className="pl-3 mt-1 text-[var(--text-secondary)] space-y-0.5">
                   <div>├── <span className="text-emerald-400">engine.dart</span></div>
                   <div>└── <span className="text-emerald-400">models/</span></div>
                 </div>
               </div>
               <div className="p-2 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-main)]">
-                <span className="text-purple-400">📁 test/</span>
+                <span className="text-purple-400">test/</span>
                 <div className="pl-3 mt-1 text-[var(--text-secondary)] space-y-0.5">
                   <div>└── <span className="text-emerald-400">engine_test.dart</span></div>
                 </div>
               </div>
               <div className="p-2 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-main)]">
-                <span className="text-amber-400">📁 assets/</span>
+                <span className="text-amber-400">assets/</span>
                 <div className="pl-3 mt-1 text-[var(--text-secondary)] space-y-0.5">
                   <div>└── <span className="text-emerald-400">images/</span></div>
                 </div>
@@ -252,7 +261,7 @@ export default function DeveloperWorkspace() {
                     ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' 
                     : 'bg-[var(--surface-main)] text-[var(--text-secondary)] border border-[var(--border-main)]'
                 }`}>
-                  {inspectHovered ? '● ANALYZING' : '● READY'}
+                  {inspectHovered ? 'ANALYZING' : 'READY'}
                 </span>
               </div>
 
@@ -285,22 +294,22 @@ export default function DeveloperWorkspace() {
                     <div className="flex items-center gap-2 text-[11px] text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>INTERNET</span>
-                      <span className="text-[9px] text-[var(--text-secondary)] ml-auto">✓ Allowed</span>
+                      <span className="text-[9px] text-[var(--text-secondary)] ml-auto">Allowed</span>
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>STORAGE</span>
-                      <span className="text-[9px] text-[var(--text-secondary)] ml-auto">✓ Allowed</span>
+                      <span className="text-[9px] text-[var(--text-secondary)] ml-auto">Allowed</span>
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>CAMERA</span>
-                      <span className="text-[9px] text-rose-400 ml-auto">⚠ Not Requested</span>
+                      <span className="text-[9px] text-rose-400 ml-auto">Not Requested</span>
                     </div>
                     <div className="flex items-center gap-2 text-[11px] text-emerald-400">
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>MICROPHONE</span>
-                      <span className="text-[9px] text-rose-400 ml-auto">⚠ Not Requested</span>
+                      <span className="text-[9px] text-rose-400 ml-auto">Not Requested</span>
                     </div>
                   </div>
                 </div>
@@ -322,7 +331,7 @@ export default function DeveloperWorkspace() {
               {/* Certificate Info */}
               <div className="flex items-center gap-2 text-[9px] font-mono text-emerald-400 border-t border-[var(--border-main)] pt-3">
                 <Fingerprint className="w-3.5 h-3.5" />
-                <span>✓ Certificate chain verified // SHA-256: 3A:7B:9F:2C:4D:8E:1A:5F</span>
+                <span>Certificate chain verified // SHA-256: 3A:7B:9F:2C:4D:8E:1A:5F</span>
               </div>
             </div>
           </div>
@@ -390,7 +399,7 @@ export default function DeveloperWorkspace() {
                 </div>
                 <div className="flex justify-between text-[9px] font-mono text-[var(--text-secondary)]">
                   <span>Target: 16.7ms (60 FPS)</span>
-                  <span className="text-emerald-400">✓ Stable</span>
+                  <span className="text-emerald-400">Stable</span>
                 </div>
               </div>
 
@@ -478,17 +487,17 @@ export default function DeveloperWorkspace() {
                   <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[var(--surface-secondary)] text-[var(--text-primary)] border border-[var(--border-main)]">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     <span className="text-[11px] font-medium">Dynamic Programming Practice</span>
-                    <span className="ml-auto text-[9px] text-emerald-400 font-mono">✓ DONE</span>
+                    <span className="ml-auto text-[9px] text-emerald-400 font-mono">DONE</span>
                   </div>
                   <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[var(--surface-secondary)] text-[var(--text-primary)] border border-[var(--border-main)]">
                     <div className="w-4 h-4 rounded-full border-2 border-cyan-400" />
                     <span className="text-[11px] font-medium">Review System Architecture Notes</span>
-                    <span className="ml-auto text-[9px] text-cyan-400 font-mono">● IN PROGRESS</span>
+                    <span className="ml-auto text-[9px] text-cyan-400 font-mono">IN PROGRESS</span>
                   </div>
                   <div className="flex items-center gap-2.5 p-2.5 rounded-xl bg-[var(--surface-secondary)] text-[var(--text-secondary)] border border-[var(--border-main)] opacity-60">
                     <div className="w-4 h-4 rounded-full border-2 border-gray-400" />
                     <span className="text-[11px]">Prepare Lab Report</span>
-                    <span className="ml-auto text-[9px] text-gray-400 font-mono">○ PENDING</span>
+                    <span className="ml-auto text-[9px] text-gray-400 font-mono">PENDING</span>
                   </div>
                 </div>
 
@@ -503,10 +512,10 @@ export default function DeveloperWorkspace() {
 
                 {/* Bottom Navigation Preview */}
                 <div className="flex justify-around pt-2 border-t border-[var(--border-main)]">
-                  <span className="text-[9px] font-mono text-pink-400">● Home</span>
-                  <span className="text-[9px] font-mono text-[var(--text-secondary)]">○ Schedule</span>
-                  <span className="text-[9px] font-mono text-[var(--text-secondary)]">○ Tasks</span>
-                  <span className="text-[9px] font-mono text-[var(--text-secondary)]">○ Profile</span>
+                  <span className="text-[9px] font-mono text-pink-400">Home</span>
+                  <span className="text-[9px] font-mono text-[var(--text-secondary)]">Schedule</span>
+                  <span className="text-[9px] font-mono text-[var(--text-secondary)]">Tasks</span>
+                  <span className="text-[9px] font-mono text-[var(--text-secondary)]">Profile</span>
                 </div>
               </div>
             </div>

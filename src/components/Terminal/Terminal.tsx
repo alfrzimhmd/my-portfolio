@@ -36,10 +36,21 @@ export default function Terminal({
     }
   }, [history]);
 
+  // Normalisasi command: project<name> -> project name
+  const normalizeCommand = (cmd: string): string => {
+    return cmd
+      .toLowerCase()
+      .replace(/project\s*[<[(]([^>\])]+)[>\])]/g, 'project $1') // project<name> -> project name
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
   const handleCommandSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const trimmed = inputVal.trim().toLowerCase();
-    if (!trimmed) return;
+    const rawInput = inputVal.trim();
+    if (!rawInput) return;
+
+    const trimmed = normalizeCommand(rawInput);
 
     let response: string[] = [];
 
@@ -118,6 +129,7 @@ export default function Terminal({
 
       case 'project nexus-trace':
       case 'project nexustrace':
+      case 'project nexus':
         response = [
           'NexusTrace',
           '  +-- APK & Binary Inspection Workbench',
@@ -129,6 +141,7 @@ export default function Terminal({
 
       case 'project sistem-krs':
       case 'project skrs':
+      case 'project krs':
         response = [
           'Sistem KRS',
           '  +-- Academic Course Planning System',
@@ -140,6 +153,8 @@ export default function Terminal({
 
       case 'project smart-inventory':
       case 'project smartinventory':
+      case 'project inventory':
+      case 'project umkm':
         response = [
           'SmartInventory',
           '  +-- Inventory & Transaction Management App',
@@ -150,6 +165,7 @@ export default function Terminal({
         break;
 
       case 'project nutriscan':
+      case 'project nutri':
         response = [
           'NutriScan',
           '  +-- Food Nutrition Detection App',
@@ -161,6 +177,7 @@ export default function Terminal({
 
       case 'project simaho-uiux':
       case 'project simaho':
+      case 'project simawa':
         response = [
           'SIMAHO UI/UX',
           '  +-- Student Information System Design',
@@ -207,10 +224,10 @@ export default function Terminal({
       case 'about':
         response = [
           '+-------------------------------------------+',
-          '|  DIGITAL LAB TERMINAL v2.0                ',
-          '|  Interactive workspace for portfolio       ',
-          '|  Type "help" for available commands        ',
-          '|  Built with React & TypeScript            ',
+          '|  DIGITAL LAB TERMINAL v2.0                 |',
+          '|  Interactive workspace for portfolio       |',
+          '|  Type "help" for available commands        |',
+          '|  Built with React & TypeScript             |',
           '+-------------------------------------------+'
         ];
         break;
@@ -229,7 +246,7 @@ export default function Terminal({
         }
     }
 
-    setHistory(prev => [...prev, { cmd: inputVal, output: response }]);
+    setHistory(prev => [...prev, { cmd: rawInput, output: response }]);
     setInputVal('');
   };
 
@@ -255,10 +272,10 @@ export default function Terminal({
         </div>
       </div>
 
-      {/* Terminal Content Body - dengan overflow dan scroll internal */}
+      {/* Terminal Content Body */}
       <div 
         ref={terminalContainerRef}
-        className="p-4 space-y-3 max-h-56 overflow-y-auto text-gray-300 select-text"
+        className="p-4 space-y-3 max-h-[400px] overflow-y-auto text-gray-300 select-text"
       >
         {history.map((item, idx) => (
           <div key={idx} className="space-y-1">
