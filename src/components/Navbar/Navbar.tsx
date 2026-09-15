@@ -34,7 +34,7 @@ export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) 
             className="group flex items-center gap-2.5 text-decoration-none"
           >
             <div className="w-8 h-8 rounded-lg bg-[var(--surface-secondary)] border border-[var(--border-main)] flex items-center justify-center font-mono font-bold text-xs text-cyan-400 group-hover:border-cyan-500/60 transition-colors">
-              DEV
+              MA
             </div>
             <div className="flex flex-col">
               <span className="font-mono text-sm font-semibold tracking-tight text-[var(--text-primary)] group-hover:text-cyan-400 transition-colors">
