@@ -86,6 +86,116 @@ body {
 }
 
 /* ============================================
+   BOOT SEQUENCE STYLES - HUD V2
+   ============================================ */
+
+/* Prevent body scroll saat boot */
+body:has(.boot-active) {
+  overflow: hidden !important;
+}
+
+/* Font tabular untuk angka yang stabil */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Smooth fade in untuk konten utama */
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.content-fade-in {
+  animation: contentFadeIn 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  will-change: opacity;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Optimize rendering */
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+/* ============================================
+   PERFORMANCE OPTIMIZATION
+   ============================================ */
+
+/* GPU Acceleration untuk elemen yang dianimasikan */
+.boot-animated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Smooth fade in untuk konten utama */
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.content-fade-in {
+  animation: contentFadeIn 0.6s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  will-change: opacity;
+}
+
+/* Prevent layout shift saat transisi */
+.no-layout-shift {
+  contain: layout style paint;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .content-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+  
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   SMOOTH TRANSITION HELPERS
+   ============================================ */
+
+/* Prevent flickering saat transisi */
+.boot-screen-exit {
+  pointer-events: none;
+}
+
+/* Optimize rendering untuk transisi */
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-transform {
+  will-change: transform;
+}
+
+/* ============================================
    PRINT STYLES FOR CV - COMPACT
    ============================================ */
 @media print {
@@ -105,6 +215,12 @@ body {
   }
 
   .no-print {
+    display: none !important;
+  }
+
+  /* Hide boot sequence on print */
+  .boot-active,
+  [class*="boot-"] {
     display: none !important;
   }
 

@@ -49,7 +49,7 @@ export default function SkillsPage() {
           My Technical Laboratory
         </h1>
         <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-          Eksplorasi mendalam lintas disiplin: dari rekayasa aplikasi bergerak, arsitektur web modern, presisi desain antarmuka, hingga dekonstruksi biner dan analisis sistem.
+          In-depth exploration across disciplines: from mobile application engineering, modern web architecture, and interface design precision, to binary deconstruction and system analysis.
         </p>
       </div>
 
@@ -71,7 +71,7 @@ export default function SkillsPage() {
               Inside the Lab &mdash; Software Inspection
             </h2>
             <p className="text-sm text-[var(--text-secondary)] pt-1">
-              Visualisasi analisis arsitektur dan audit keamanan edukatif terhadap paket aplikasi Android.
+              Visualization of architecture analysis and educational security audit of Android application packages.
             </p>
           </div>
 

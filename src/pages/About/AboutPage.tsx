@@ -47,7 +47,7 @@ export default function AboutPage() {
               02 — PROFILE
             </span>
 
-            {/* Headline dengan Animasi Mengetik */}
+            {/* Headline with Typing Animation */}
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight min-h-[4rem]">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-400 to-blue-400">
                 {typingText}
@@ -57,19 +57,19 @@ export default function AboutPage() {
 
             <div className="space-y-4 text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed font-normal">
               <p className="text-[var(--text-primary)] font-medium">
-                Saya adalah seorang developer yang memiliki ketertarikan pada pengembangan aplikasi, website, desain antarmuka, dan bagaimana sebuah sistem bekerja di balik layar.
+                I am a developer with a strong interest in application development, web engineering, interface design, and understanding how systems work behind the scenes.
               </p>
 
               <p>
-                Bagi saya, software development bukan sekadar menyatukan baris kode hingga sebuah fitur dapat berjalan. Ini adalah proses sistematis dalam merumuskan pemecahan masalah (problem solving), mengelola kompleksitas data, dan memastikan performa runtime tetap stabil di berbagai kondisi.
+                For me, software development is not just about assembling lines of code until a feature works. It is a systematic process of problem-solving, managing data complexity, and ensuring runtime performance remains stable across various conditions.
               </p>
 
               <p>
-                Melalui UI/UX design, saya menaruh perhatian besar pada hierarki tipografi, ritme spasial, dan keterbacaan antarmuka. Antarmuka yang baik harus memudahkan interaksi pengguna tanpa membebani kognitif mereka.
+                Through UI/UX design, I place great emphasis on typographic hierarchy, spatial rhythm, and interface readability. A good interface should facilitate user interaction without imposing unnecessary cognitive load.
               </p>
 
               <p>
-                Di sisi lain, eksplorasi reverse engineering dan analisis sistem memberikan sudut pandang mendalam mengenai bagaimana software sebenarnya dieksekusi di level biner dan memori. Rasa ingin tahu inilah yang terus mendorong pembelajaran berkelanjutan (continuous learning) dalam setiap proyek yang saya bangun.
+                On the other hand, exploring reverse engineering and system analysis provides deep insights into how software is actually executed at the binary and memory level. This curiosity continues to drive my continuous learning in every project I build.
               </p>
             </div>
 
@@ -110,7 +110,7 @@ export default function AboutPage() {
               BUILD
             </h3>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-              Building applications and digital products. Fokus pada arsitektur yang modular, maintainable, dan performa tinggi baik di platform mobile maupun web.
+              Building applications and digital products. Focused on modular, maintainable architecture with high performance across both mobile and web platforms.
             </p>
           </div>
 
@@ -123,7 +123,7 @@ export default function AboutPage() {
               DESIGN
             </h3>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-              Creating intuitive interfaces and user experiences. Mengutamakan presisi tipografi, kejelasan visual, dan ergonomi navigasi untuk kemudahan pengguna.
+              Creating intuitive interfaces and user experiences. Prioritizing typographic precision, visual clarity, and navigation ergonomics for effortless user interaction.
             </p>
           </div>
 
@@ -136,13 +136,13 @@ export default function AboutPage() {
               ANALYZE
             </h3>
             <p className="text-sm text-[var(--text-secondary)] leading-relaxed">
-              Understanding systems, behavior and software architecture. Membedah bagaimana aplikasi beroperasi di balik layar, mengaudit integritas, dan mengoptimalkan resource.
+              Understanding systems, behavior, and software architecture. Dissecting how applications operate behind the scenes, auditing integrity, and optimizing resources.
             </p>
           </div>
         </div>
       </section>
 
-      {/* 03: Personal Philosophy (Section 18) - DIPERBAIKI */}
+      {/* 03: Personal Philosophy (Section 18) */}
       <section id="about-philosophy-section">
         <div className="rounded-2xl md:rounded-3xl border border-[var(--border-main)] bg-gradient-to-br from-[var(--surface-main)] via-[var(--surface-main)] to-[var(--surface-secondary)] p-6 sm:p-8 lg:p-10 shadow-2xl relative overflow-hidden">
           <div className="max-w-5xl mx-auto space-y-5 text-center">
@@ -159,13 +159,13 @@ export default function AboutPage() {
               </h2>
             </div>
 
-            {/* Editorial Statement - RATA TENGAH */}
+            {/* Editorial Statement */}
             <blockquote className="text-xs sm:text-sm md:text-base text-[var(--text-secondary)] leading-relaxed max-w-4xl mx-auto font-normal text-center">
               &ldquo;Development is not only about making something work, but also understanding why it works and how it can be improved.&rdquo;
             </blockquote>
 
             <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed max-w-2xl mx-auto">
-              Prinsip ini menjadi kompas dalam setiap pengerjaan proyek software. Dari tahap inisiasi rancangan, penulisan kode, inspeksi performa memori, hingga pemolesan interaksi visual terkecil.
+              This principle serves as my compass in every software project — from initial design and code writing, to memory performance inspection, and the polishing of the smallest visual interactions.
             </p>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function AboutPage() {
             Developer Journey
           </h2>
           <p className="text-sm text-[var(--text-secondary)] pt-1">
-            Evolusi eksplorasi teknologi dan pengembangan sistem dari waktu ke waktu.
+            The evolution of my technology exploration and system development over time.
           </p>
         </div>
 

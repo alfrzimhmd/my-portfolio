@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Menu, X, Command, FileText } from 'lucide-react';
+import { Menu, X, Command, FileText, Terminal } from 'lucide-react';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import { personalInfo } from '../../data/socials';
 
 interface NavbarProps {
   onOpenCommandPalette: () => void;
-  onOpenCV: () => void; // Tambahkan props untuk CV
+  onOpenCV: () => void;
+  onOpenTerminal: () => void;
 }
 
-export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) {
+export default function Navbar({ onOpenCommandPalette, onOpenCV, onOpenTerminal }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -67,7 +68,18 @@ export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) 
           </nav>
 
           {/* Right Action Tools */}
-          <div className="hidden md:flex items-center gap-2.5">
+          <div className="hidden md:flex items-center gap-2">
+            {/* Console Button */}
+            <button
+              id="nav-console-btn"
+              onClick={onOpenTerminal}
+              title="Open Lab Console (Interactive Terminal)"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-secondary)] hover:text-cyan-400 hover:border-cyan-500/40 transition-all font-mono text-[11px] cursor-pointer"
+            >
+              <Terminal className="w-3.5 h-3.5" />
+              <span>Console</span>
+            </button>
+
             {/* Command Palette Trigger */}
             <button
               id="cmd-palette-trigger-btn"
@@ -79,7 +91,7 @@ export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) 
               <span>K</span>
             </button>
 
-            {/* CV Button - Menggantikan System Status */}
+            {/* CV Button */}
             <button
               id="nav-cv-cta-btn"
               type="button"
@@ -97,6 +109,16 @@ export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) 
 
           {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-2">
+            {/* Console Button Mobile */}
+            <button
+              type="button"
+              onClick={onOpenTerminal}
+              className="p-2 rounded-lg border border-[var(--border-main)] bg-[var(--surface-secondary)] text-[var(--text-secondary)]"
+              title="Open Console"
+            >
+              <Terminal className="w-4 h-4" />
+            </button>
+
             {/* Quick CV button on mobile */}
             <button
               type="button"
@@ -109,7 +131,7 @@ export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) 
             </button>
 
             <ThemeToggle />
-            
+
             <button
               id="mobile-menu-toggle-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -147,6 +169,18 @@ export default function Navbar({ onOpenCommandPalette, onOpenCV }: NavbarProps) 
             </div>
 
             <div className="pt-3 border-t border-[var(--border-main)] flex flex-col gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenTerminal();
+                }}
+                className="w-full py-2.5 px-3 rounded-lg text-xs font-mono font-semibold border border-cyan-500/40 bg-cyan-500/10 text-cyan-400 flex items-center justify-center gap-2"
+              >
+                <Terminal className="w-4 h-4" />
+                <span>Open Lab Console</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => {

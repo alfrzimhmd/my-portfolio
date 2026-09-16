@@ -10,7 +10,7 @@ export default function ProjectsPage() {
 
   const categories = ['All', 'App Development', 'Web Development', 'UI/UX Design', 'Reverse Engineering'];
 
-  // Filter projects dengan safe checking
+  // Filter projects with safe checking
   const filteredProjects = projects.filter(p => {
     if (!p) return false;
     const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
@@ -21,12 +21,12 @@ export default function ProjectsPage() {
     return matchesCategory && matchesQuery;
   });
 
-  // Cari featured project
+  // Find featured project
   const featuredProject = projects.find(p => p?.id === 'studymate') || projects[0];
 
-  // Pisahkan project berdasarkan orientasi dengan fallback
+  // Separate projects by orientation with fallback
   const landscapeProjects = filteredProjects.filter(p => {
-    // Jika orientation tidak ada atau null, default ke landscape
+    // If orientation is missing or null, default to landscape
     const orientation = p?.orientation || 'landscape';
     return orientation === 'landscape' && p?.id !== 'studymate';
   });
@@ -36,13 +36,7 @@ export default function ProjectsPage() {
     return orientation === 'portrait' && p?.id !== 'studymate';
   });
 
-  // Debug: log jumlah project
-  console.log('Total projects:', projects.length);
-  console.log('Filtered projects:', filteredProjects.length);
-  console.log('Landscape projects:', landscapeProjects.length);
-  console.log('Portrait projects:', portraitProjects.length);
-
-  // Jika tidak ada project, tampilkan pesan
+  // If no projects, show message
   if (!projects || projects.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
@@ -62,7 +56,7 @@ export default function ProjectsPage() {
           Crafted Applications &amp; Case Studies.
         </h1>
         <p className="text-base sm:text-lg text-[var(--text-secondary)] leading-relaxed">
-          Setiap proyek merupakan laboratorium tempat eksplorasi arsitektur perangkat lunak, optimasi performa, dan desain antarmuka diuji secara nyata.
+          Every project is a laboratory where software architecture exploration, performance optimization, and interface design are rigorously tested in real-world scenarios.
         </p>
       </div>
 
@@ -109,7 +103,7 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      {/* Landscape Projects - Card dengan gambar di kiri */}
+      {/* Landscape Projects - Card with image on left */}
       {landscapeProjects.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-2">
@@ -131,7 +125,7 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      {/* Portrait Projects - Grid 3 kolom */}
+      {/* Portrait Projects - 3 column grid */}
       {portraitProjects.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-2">
@@ -153,7 +147,7 @@ export default function ProjectsPage() {
         </div>
       )}
 
-      {/* Jika tidak ada project yang ditampilkan (selain featured) */}
+      {/* Fallback: if no projects shown (besides featured) */}
       {landscapeProjects.length === 0 && portraitProjects.length === 0 && filteredProjects.length > 0 && (
         <div className="space-y-6">
           <div className="flex items-center gap-2">

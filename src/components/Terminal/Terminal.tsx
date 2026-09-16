@@ -1,15 +1,21 @@
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import { Terminal as TerminalIcon, Sparkles } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface TerminalProps {
   initialCommand?: string;
   isInteractive?: boolean;
+  onOpenCV?: () => void;
+  onClose?: () => void;
 }
 
 export default function Terminal({
   initialCommand = 'whoami',
-  isInteractive = true
+  isInteractive = true,
+  onOpenCV,
+  onClose,
 }: TerminalProps) {
+  const navigate = useNavigate();
   const [history, setHistory] = useState<Array<{ cmd: string; output: string[] }>>([
     {
       cmd: 'whoami',
@@ -28,19 +34,25 @@ export default function Terminal({
   const [isHovered, setIsHovered] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const terminalContainerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto scroll ke bawah hanya di dalam terminal
+  // Auto scroll
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
   }, [history]);
 
-  // Normalisasi command: project<name> -> project name
+  // Auto focus
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  // Normalisasi command
   const normalizeCommand = (cmd: string): string => {
     return cmd
       .toLowerCase()
-      .replace(/project\s*[<[(]([^>\])]+)[>\])]/g, 'project $1') // project<name> -> project name
+      .replace(/project\s*[<[(]([^>\])]+)[>\])]/g, 'project $1')
       .replace(/\s+/g, ' ')
       .trim();
   };
@@ -53,77 +65,194 @@ export default function Terminal({
     const trimmed = normalizeCommand(rawInput);
 
     let response: string[] = [];
+    let shouldNavigate = false;
+    let navigateTo = '';
 
     switch (trimmed) {
       case 'whoami':
-        response = ['developer & software explorer', 'Focus: Flutter, React, UI/UX, Reverse Engineering'];
+        response = [
+          'DEVELOPER IDENTITY',
+          '─────────────────────────────────',
+          'Name     : Muhammad Alfarizi',
+          'Role     : Software & Web Developer',
+          'Focus    : Flutter · React · UI/UX · RE',
+          'Status   : Available for Projects',
+        ];
         break;
 
       case 'current_focus':
       case 'focus':
         response = [
-          'App Development    - Flutter, Dart, SQLite',
-          'Web Development    - React, TypeScript, Laravel',
-          'UI/UX Design       - Figma, Design System, Prototyping',
-          'Reverse Engineering - Python, Rust, APK Analysis'
+          'ACTIVE TECHNOLOGY DOMAINS',
+          '─────────────────────────────────',
+          '',
+          'App Development',
+          '  Flutter · Dart · SQLite',
+          '',
+          'Web Development',
+          '  React · TypeScript · Laravel',
+          '',
+          'UI/UX Design',
+          '  Figma · Design System · Prototype',
+          '',
+          'Reverse Engineering',
+          '  Python · Rust · APK Analysis',
         ];
         break;
 
       case 'status':
         response = [
-          '> System: Online',
-          '> Projects: 8 active repositories',
-          '> Focus: Building portfolio & learning',
-          '> Curiosity: High'
+          'SYSTEM STATUS',
+          '─────────────────────────────────',
+          '● System      : Online',
+          '● Projects    : 8 active repositories',
+          '● Focus       : Building portfolio',
+          '● Curiosity   : High',
+          '● Uptime      : 99.9%',
         ];
         break;
 
       case 'help':
         response = [
-          'Available commands:',
-          '  whoami          - Display developer identity',
-          '  current_focus   - List active technology domains',
-          '  status          - Check system & project status',
-          '  projects        - List all featured projects',
-          '  project <name>  - Show details of specific project',
-          '  skills          - List technical skills',
-          '  sudo            - Laboratory elevated mode',
-          '  clear           - Clear terminal screen',
-          '  about           - About this terminal'
+          'AVAILABLE COMMANDS',
+          '─────────────────────────────────',
+          '',
+          'NAVIGATION',
+          '  home            Go to home page',
+          '  about           Go to about page',
+          '  contact         Go to contact page',
+          '  skills          List technical skills',
+          '',
+          'PROJECTS',
+          '  projects        List all projects',
+          '  project <name>  Show project details',
+          '  open <name>     Open project page',
+          '',
+          'ACTIONS',
+          '  cv              Open Curriculum Vitae',
+          '  clear           Clear terminal screen',
+          '  close           Close terminal',
+          '',
+          'INFO',
+          '  whoami          Developer identity',
+          '  current_focus   Active tech domains',
+          '  status          System status',
+          '  sudo            Elevated mode',
+          '  info            Info this terminal',
         ];
+        break;
+
+      case 'home':
+        response = ['> Navigating to home page...'];
+        shouldNavigate = true;
+        navigateTo = '/';
+        break;
+
+      case 'about':
+        response = ['> Opening about page...'];
+        shouldNavigate = true;
+        navigateTo = '/about';
+        break;
+
+      case 'contact':
+        response = ['> Opening contact page...'];
+        shouldNavigate = true;
+        navigateTo = '/contact';
+        break;
+
+      case 'cv':
+        response = ['> Opening Curriculum Vitae...'];
+        setTimeout(() => {
+          onOpenCV?.();
+        }, 300);
+        break;
+
+      case 'close':
+      case 'exit':
+        response = ['> Closing terminal session...'];
+        setTimeout(() => {
+          onClose?.();
+        }, 300);
         break;
 
       case 'projects':
         response = [
-          'StudyMate            - Student Productivity Platform (Flutter)',
-          'AirVista             - Air Quality Monitoring Platform (React)',
-          'Sistem KRS           - Academic Course Planning System (Laravel)',
-          'SmartInventory       - Inventory Management App (Flutter)',
-          'NutriScan            - Food Nutrition Detection App (Flutter)',
-          'SIMAHO UI/UX         - Student Information System Design (Figma)',
-          'Apotek Online        - Online Pharmacy Management (PHP Native)',
-          'NexusTrace           - APK & Binary Inspection (Rust/Python)'
+          'PROJECT LABORATORY (8)',
+          '─────────────────────────────────',
+          '',
+          '#01  StudyMate',
+          '     Student Productivity · Flutter',
+          '',
+          '#02  AirVista',
+          '     Air Quality Monitoring · React',
+          '',
+          '#03  Sistem KRS',
+          '     Course Planning · Laravel',
+          '',
+          '#04  SmartInventory',
+          '     Inventory Management · Flutter',
+          '',
+          '#05  NutriScan',
+          '     Food Nutrition Detection · Flutter',
+          '',
+          '#06  Simawa UI/UX',
+          '     Student Info System · Figma',
+          '',
+          '#07  Apotek Online',
+          '     Pharmacy Management · PHP',
+          '',
+          '#08  NexusTrace',
+          '     APK Binary Inspection · Rust',
+          '',
+          'Use "project <name>" for details',
+          'Use "open <name>" to view project',
         ];
         break;
 
       case 'project':
       case 'project studymate':
         response = [
-          'StudyMate',
-          '  +-- Student Productivity Platform',
-          '  +-- Tech: Flutter, Dart, SQLite, Google Drive API',
-          '  +-- Features: Schedule, Tasks, Pomodoro, Notes',
-          '  +-- Status: Production Ready'
+          'PROJECT: StudyMate',
+          '─────────────────────────────────',
+          'Category  : App Development',
+          'Tagline   : Student Productivity',
+          'Role      : Mobile Developer',
+          'Status    : Production Ready',
+          '',
+          'TECH STACK',
+          '  Flutter · Dart · SQLite',
+          '  Google Drive API · Provider',
+          '',
+          'KEY FEATURES',
+          '  - Interactive Academic Schedule',
+          '  - Task & Assignment Management',
+          '  - Markdown-powered Notes System',
+          '  - Pomodoro Focus Timer',
+          '',
+          '> open studymate  (full case study)',
         ];
         break;
 
       case 'project airvista':
         response = [
-          'AirVista',
-          '  +-- Air Quality Monitoring Platform',
-          '  +-- Tech: React, Vite, Express.js, Leaflet, Google Gemini AI',
-          '  +-- Features: Realtime AQI, Interactive Map, AI Consultation',
-          '  +-- Status: Live Demo Available'
+          'PROJECT: AirVista',
+          '─────────────────────────────────',
+          'Category  : Web Development',
+          'Tagline   : Air Quality Monitoring',
+          'Role      : Web Developer',
+          'Status    : Live Demo Available',
+          '',
+          'TECH STACK',
+          '  React · Vite · Express.js',
+          '  Leaflet · Google Gemini AI',
+          '',
+          'KEY FEATURES',
+          '  - Realtime AQI Monitoring',
+          '  - Interactive Geospatial Map',
+          '  - AI-powered Consultation',
+          '  - Satellite Data Integration',
+          '',
+          '> open airvista  (full case study)',
         ];
         break;
 
@@ -131,11 +260,24 @@ export default function Terminal({
       case 'project nexustrace':
       case 'project nexus':
         response = [
-          'NexusTrace',
-          '  +-- APK & Binary Inspection Workbench',
-          '  +-- Tech: Rust, Python, Radare2, Jadx Engine, Tauri',
-          '  +-- Features: Manifest Audit, DEX Analysis, Native Lib Inspection',
-          '  +-- Status: Research & Development'
+          'PROJECT: NexusTrace',
+          '─────────────────────────────────',
+          'Category  : Reverse Engineering',
+          'Tagline   : APK Binary Inspection',
+          'Role      : Researcher',
+          'Status    : Research & Development',
+          '',
+          'TECH STACK',
+          '  Rust · Python · Radare2',
+          '  Jadx Engine · Tauri',
+          '',
+          'KEY FEATURES',
+          '  - AndroidManifest Permission Audit',
+          '  - DEX String Table Extraction',
+          '  - Native Library Inspection',
+          '  - Entropy Analysis',
+          '',
+          '> open nexus-trace  (full case study)',
         ];
         break;
 
@@ -143,11 +285,24 @@ export default function Terminal({
       case 'project skrs':
       case 'project krs':
         response = [
-          'Sistem KRS',
-          '  +-- Academic Course Planning System',
-          '  +-- Tech: Laravel, PHP, MySQL, Bootstrap',
-          '  +-- Features: Multi-role Login, KRS Submission, Academic Stats',
-          '  +-- Status: Production Ready'
+          'PROJECT: Sistem KRS',
+          '─────────────────────────────────',
+          'Category  : Web Development',
+          'Tagline   : Academic Course Planning',
+          'Role      : Web Developer',
+          'Status    : Production Ready',
+          '',
+          'TECH STACK',
+          '  Laravel · PHP · MySQL',
+          '  Bootstrap · JavaScript',
+          '',
+          'KEY FEATURES',
+          '  - Multi-role Login (Student/Lecturer)',
+          '  - KRS Submission by Semester',
+          '  - Academic Statistics Dashboard',
+          '  - Approval Workflow',
+          '',
+          '> open sistem-krs  (full case study)',
         ];
         break;
 
@@ -156,63 +311,238 @@ export default function Terminal({
       case 'project inventory':
       case 'project umkm':
         response = [
-          'SmartInventory',
-          '  +-- Inventory & Transaction Management App',
-          '  +-- Tech: Flutter, Dart, SQLite, Provider',
-          '  +-- Features: Daily Stats, Product Management, Transaction System',
-          '  +-- Status: Production Ready'
+          'PROJECT: SmartInventory',
+          '─────────────────────────────────',
+          'Category  : App Development',
+          'Tagline   : Inventory & Transaction',
+          'Role      : Mobile Developer',
+          'Status    : Production Ready',
+          '',
+          'TECH STACK',
+          '  Flutter · Dart · SQLite · Provider',
+          '',
+          'KEY FEATURES',
+          '  - Daily Statistics Dashboard',
+          '  - Product Management (CRUD)',
+          '  - Buy & Sell Transaction System',
+          '  - Supplier Management',
+          '',
+          '> open smart-inventory  (full case study)',
         ];
         break;
 
       case 'project nutriscan':
       case 'project nutri':
         response = [
-          'NutriScan',
-          '  +-- Food Nutrition Detection App',
-          '  +-- Tech: Flutter, Dart, TensorFlow Lite, SQLite, BLoC',
-          '  +-- Features: Nutrition Stats, Food Scan, Daily Targets',
-          '  +-- Status: Production Ready'
+          'PROJECT: NutriScan',
+          '─────────────────────────────────',
+          'Category  : App Development',
+          'Tagline   : Food Nutrition Detection',
+          'Role      : Mobile Developer',
+          'Status    : Production Ready',
+          '',
+          'TECH STACK',
+          '  Flutter · Dart · TensorFlow Lite',
+          '  SQLite · BLoC',
+          '',
+          'KEY FEATURES',
+          '  - Nutrition Stats Dashboard',
+          '  - AI Food Scan (TFLite)',
+          '  - Daily Nutrition Targets',
+          '  - Nutrition Education Content',
+          '',
+          '> open nutriscan  (full case study)',
         ];
         break;
 
-      case 'project simaho-uiux':
-      case 'project simaho':
+      case 'project Simawa-uiux':
+      case 'project Simawa':
       case 'project simawa':
         response = [
-          'SIMAHO UI/UX',
-          '  +-- Student Information System Design',
-          '  +-- Tech: Figma, UI/UX Design, Prototyping',
-          '  +-- Features: Multi-role Login, Scholarship Info, Seminar Info',
-          '  +-- Status: Design Complete'
+          'PROJECT: Simawa UI/UX',
+          '─────────────────────────────────',
+          'Category  : UI/UX Design',
+          'Tagline   : Student Information System',
+          'Role      : UI/UX Designer',
+          'Status    : Design Complete',
+          '',
+          'TECH STACK',
+          '  Figma · UI/UX Design · Prototyping',
+          '',
+          'KEY FEATURES',
+          '  - Multi-role Login Design',
+          '  - Scholarship Information',
+          '  - Seminar & Event Calendar',
+          '  - Design System Components',
+          '',
+          '> open Simawa-uiux  (full case study)',
         ];
         break;
 
       case 'project apotek-online':
       case 'project apotek':
         response = [
-          'Apotek Online',
-          '  +-- Online Pharmacy Management System',
-          '  +-- Tech: PHP Native, MySQL, HTML, CSS, JavaScript',
-          '  +-- Features: Multi-role Login, Medicine Management, Transactions',
-          '  +-- Status: Production Ready'
+          'PROJECT: Apotek Online',
+          '─────────────────────────────────',
+          'Category  : Web Development',
+          'Tagline   : Pharmacy Management',
+          'Role      : Web Developer',
+          'Status    : Production Ready',
+          '',
+          'TECH STACK',
+          '  PHP Native · MySQL · HTML/CSS/JS',
+          '',
+          'KEY FEATURES',
+          '  - Multi-role (Staff/Customer)',
+          '  - Medicine Management (CRUD)',
+          '  - Online Purchase & Consultation',
+          '  - Monthly Reports & Analytics',
+          '',
+          '> open apotek-online  (full case study)',
+        ];
+        break;
+
+      case 'open studymate':
+        response = ['> Opening StudyMate case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/studymate';
+        break;
+
+      case 'open airvista':
+        response = ['> Opening AirVista case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/airvista';
+        break;
+
+      case 'open nexus-trace':
+      case 'open nexustrace':
+      case 'open nexus':
+        response = ['> Opening NexusTrace case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/nexus-trace';
+        break;
+
+      case 'open sistem-krs':
+      case 'open skrs':
+      case 'open krs':
+        response = ['> Opening Sistem KRS case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/sistem-krs';
+        break;
+
+      case 'open smart-inventory':
+      case 'open smartinventory':
+      case 'open umkm':
+        response = ['> Opening SmartInventory case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/smart-inventory';
+        break;
+
+      case 'open nutriscan':
+        response = ['> Opening NutriScan case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/nutriscan';
+        break;
+
+      case 'open Simawa-uiux':
+      case 'open Simawa':
+      case 'open simawa':
+        response = ['> Opening Simawa UI/UX case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/Simawa-uiux';
+        break;
+
+      case 'open apotek-online':
+      case 'open apotek':
+        response = ['> Opening Apotek Online case study...'];
+        shouldNavigate = true;
+        navigateTo = '/projects/apotek-online';
+        break;
+
+      case 'open projects':
+        response = ['> Opening Projects Laboratory...'];
+        shouldNavigate = true;
+        navigateTo = '/projects';
+        break;
+
+      case 'open skills':
+        response = ['> Opening Technical Laboratory...'];
+        shouldNavigate = true;
+        navigateTo = '/skills';
+        break;
+
+      case 'open':
+        response = [
+          'OPEN COMMAND USAGE',
+          '─────────────────────────────────',
+          'Usage: open <target>',
+          '',
+          'PAGES',
+          '  open projects     Projects Laboratory',
+          '  open skills       Technical Laboratory',
+          '',
+          'PROJECTS',
+          '  open studymate',
+          '  open airvista',
+          '  open nexus-trace',
+          '  open sistem-krs',
+          '  open smart-inventory',
+          '  open nutriscan',
+          '  open Simawa-uiux',
+          '  open apotek-online',
         ];
         break;
 
       case 'skills':
         response = [
-          'Frontend:    React, Flutter, HTML5, CSS3, Tailwind CSS',
-          'Backend:     Laravel, PHP, MySQL, RESTful API',
-          'Mobile:      Flutter, Dart, SQLite, TensorFlow Lite',
-          'Tools:       Git, Figma, VS Code, Postman',
-          'Research:    Reverse Engineering, APK Analysis, Binary Inspection'
+          'TECHNICAL SKILLS',
+          '─────────────────────────────────',
+          '',
+          'FRONTEND',
+          '  React · Flutter · HTML5 · CSS3',
+          '  Tailwind CSS',
+          '',
+          'BACKEND',
+          '  Laravel · PHP · MySQL',
+          '  RESTful API · Sanctum',
+          '',
+          'MOBILE',
+          '  Flutter · Dart · SQLite',
+          '  TensorFlow Lite',
+          '',
+          'TOOLS',
+          '  Git · Figma · VS Code · Postman',
+          '',
+          'RESEARCH',
+          '  Reverse Engineering',
+          '  APK Analysis · Binary Inspection',
+          '',
+          '> open skills  (full technical lab)',
         ];
         break;
 
       case 'sudo':
         response = [
+          'ELEVATED MODE',
+          '─────────────────────────────────',
+          '',
           '> Access granted.',
           '> Welcome to the elevated lab.',
-          '> System unlocked. Proceed with curiosity.'
+          '> System unlocked.',
+          '> Proceed with curiosity.',
+        ];
+        break;
+      
+      case 'info':
+      case 'terminal':
+        response = [
+          'DIGITAL LAB TERMINAL',
+          '─────────────────────────────────',
+          'Version  : 2.0.4',
+          'Built    : React 19 & TypeScript',
+          '',
+          'Interactive workspace for portfolio.',
+          'Type "help" for available commands.',
         ];
         break;
 
@@ -221,33 +551,51 @@ export default function Terminal({
         setInputVal('');
         return;
 
-      case 'about':
-        response = [
-          '+-------------------------------------------+',
-          '|  DIGITAL LAB TERMINAL v2.0                 |',
-          '|  Interactive workspace for portfolio       |',
-          '|  Type "help" for available commands        |',
-          '|  Built with React & TypeScript             |',
-          '+-------------------------------------------+'
-        ];
-        break;
-
       default:
-        // Cek apakah perintah dimulai dengan "project "
         if (trimmed.startsWith('project ')) {
           const projectName = trimmed.replace('project ', '');
           response = [
-            'Project "' + projectName + '" not found.',
-            'Available projects: studymate, airvista, nexus-trace, sistem-krs, smart-inventory, nutriscan, simaho-uiux, apotek-online',
-            'Type "projects" to see all projects.'
+            'PROJECT NOT FOUND',
+            '─────────────────────────────────',
+            `"${projectName}" was not found.`,
+            '',
+            'Available projects:',
+            '  studymate         ·  airvista',
+            '  nexus-trace       ·  sistem-krs',
+            '  smart-inventory   ·  nutriscan',
+            '  Simawa-uiux       ·  apotek-online',
+            '',
+            'Type "projects" to see all projects.',
+          ];
+        } else if (trimmed.startsWith('open ')) {
+          const target = trimmed.replace('open ', '');
+          response = [
+            'CANNOT OPEN',
+            '─────────────────────────────────',
+            `Target "${target}" is not valid.`,
+            '',
+            'Type "open" to see available targets.',
           ];
         } else {
-          response = ['Command not found: ' + trimmed + '. Type "help" for available commands.'];
+          response = [
+            'COMMAND NOT FOUND',
+            '─────────────────────────────────',
+            `"${trimmed}" is not a valid command.`,
+            '',
+            'Type "help" to see all commands.',
+          ];
         }
     }
 
     setHistory(prev => [...prev, { cmd: rawInput, output: response }]);
     setInputVal('');
+
+    if (shouldNavigate) {
+      setTimeout(() => {
+        navigate(navigateTo);
+        onClose?.();
+      }, 400);
+    }
   };
 
   return (
@@ -263,7 +611,7 @@ export default function Terminal({
           <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 inline-block" />
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 inline-block" />
           <span className="ml-2 text-[11px] text-gray-400 flex items-center gap-1.5">
-            <TerminalIcon className="w-3 h-3 text-cyan-400" /> ~/workspace
+            <TerminalIcon className="w-3 h-3 text-cyan-400" /> lab@console — ~/workspace
           </span>
         </div>
         <div className="flex items-center gap-2 text-[10px] text-gray-500">
@@ -273,45 +621,141 @@ export default function Terminal({
       </div>
 
       {/* Terminal Content Body */}
-      <div 
+      <div
         ref={terminalContainerRef}
-        className="p-4 space-y-3 max-h-[400px] overflow-y-auto text-gray-300 select-text"
+        className="p-4 space-y-3 max-h-[400px] overflow-y-auto text-gray-300 select-text scrollbar-thin scrollbar-thumb-[#242830]"
       >
         {history.map((item, idx) => (
           <div key={idx} className="space-y-1">
-            <div className="flex items-center gap-2 text-cyan-400">
+            {/* Command Line */}
+            <div className="flex items-center gap-1.5 text-cyan-400 flex-wrap">
+              <span className="text-emerald-400 font-semibold">lab@console</span>
+              <span className="text-gray-500">:</span>
+              <span className="text-purple-400">~/workspace</span>
               <span className="text-gray-500">$</span>
               <span className="font-semibold text-cyan-300">{item.cmd}</span>
             </div>
-            {item.output.map((line, lIdx) => (
-              <p
-                key={lIdx}
-                className={`pl-4 leading-relaxed ${
-                  line.startsWith('>')
-                    ? 'text-emerald-400 font-semibold'
-                    : line.includes('not found')
-                    ? 'text-rose-400'
-                    : line.includes('+--') || line.includes('|') || line.includes('+--')
-                    ? 'text-cyan-400'
-                    : 'text-gray-300'
-                }`}
-              >
-                {line}
-              </p>
-            ))}
+
+            {/* Output Lines */}
+            {item.output.map((line, lIdx) => {
+              const trimmedLine = line.trim();
+              const isEmpty = trimmedLine === '';
+              const isSeparator = /^─+$/.test(trimmedLine);
+              const isSectionHeader =
+                trimmedLine.length > 0 &&
+                trimmedLine === trimmedLine.toUpperCase() &&
+                /^[A-Z][A-Z0-9\s/&·()#\-]+$/.test(trimmedLine) &&
+                !trimmedLine.startsWith('#') &&
+                !isSeparator;
+              const isNumbered = /^#\d{2}/.test(trimmedLine);
+              const isActionHint = trimmedLine.startsWith('>');
+              const isInfoRow = /^[A-Z][a-z]+\s+:/.test(trimmedLine);
+              const isBullet = /^\s*-\s/.test(line);
+
+              // Empty line - render as small spacer
+              if (isEmpty) {
+                return <div key={lIdx} className="h-2" />;
+              }
+
+              // Separator line
+              if (isSeparator) {
+                return (
+                  <p
+                    key={lIdx}
+                    className="text-cyan-500/40 leading-relaxed whitespace-pre overflow-hidden text-ellipsis"
+                  >
+                    {line}
+                  </p>
+                );
+              }
+
+              // Section header
+              if (isSectionHeader) {
+                return (
+                  <p
+                    key={lIdx}
+                    className="text-cyan-400 font-bold leading-relaxed whitespace-pre-wrap break-words"
+                  >
+                    {line}
+                  </p>
+                );
+              }
+
+              // Numbered item
+              if (isNumbered) {
+                return (
+                  <p
+                    key={lIdx}
+                    className="text-cyan-400 font-semibold leading-relaxed whitespace-pre-wrap break-words"
+                  >
+                    {line}
+                  </p>
+                );
+              }
+
+              // Action hint
+              if (isActionHint) {
+                return (
+                  <p
+                    key={lIdx}
+                    className="text-emerald-400 leading-relaxed whitespace-pre-wrap break-words pl-1"
+                  >
+                    {line}
+                  </p>
+                );
+              }
+
+              // Info row (Key : Value)
+              if (isInfoRow) {
+                return (
+                  <p
+                    key={lIdx}
+                    className="text-gray-300 leading-relaxed whitespace-pre-wrap break-words"
+                  >
+                    {line}
+                  </p>
+                );
+              }
+
+              // Bullet item
+              if (isBullet) {
+                return (
+                  <p
+                    key={lIdx}
+                    className="text-gray-400 leading-relaxed whitespace-pre-wrap break-words pl-2"
+                  >
+                    {line}
+                  </p>
+                );
+              }
+
+              // Default line (indented sub-info, etc.)
+              return (
+                <p
+                  key={lIdx}
+                  className="text-gray-400 leading-relaxed whitespace-pre-wrap break-words"
+                >
+                  {line}
+                </p>
+              );
+            })}
           </div>
         ))}
 
         {/* Active Input Line */}
         {isInteractive && (
-          <form onSubmit={handleCommandSubmit} className="flex items-center gap-2 pt-1">
+          <form onSubmit={handleCommandSubmit} className="flex items-center gap-1.5 pt-1 flex-wrap">
+            <span className="text-emerald-400 font-semibold select-none">lab@console</span>
+            <span className="text-gray-500 select-none">:</span>
+            <span className="text-purple-400 select-none">~/workspace</span>
             <span className="text-gray-500 select-none">$</span>
             <input
+              ref={inputRef}
               type="text"
               value={inputVal}
               onChange={e => setInputVal(e.target.value)}
-              placeholder="type 'help' for available commands..."
-              className="flex-1 bg-transparent text-cyan-300 placeholder:text-gray-600 outline-none border-none font-mono text-xs"
+              placeholder="type 'help' for commands..."
+              className="flex-1 min-w-[150px] bg-transparent text-cyan-300 placeholder:text-gray-600 outline-none border-none font-mono text-xs"
               autoFocus
             />
             <span
